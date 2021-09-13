@@ -37,7 +37,7 @@ public class UserEntity implements UserDetails {
     @Column
     private boolean enabled;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
@@ -89,7 +89,7 @@ public class UserEntity implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Collection<GrantedAuthority> authorities = new ArrayList<>();
 
-        getRoles().forEach(r -> {
+        getRoles().stream().forEach(r -> {
             authorities.add(new SimpleGrantedAuthority(r.getName()));
             r.getPrivileges().forEach(p -> authorities.add(new SimpleGrantedAuthority(p.getName())));
         });

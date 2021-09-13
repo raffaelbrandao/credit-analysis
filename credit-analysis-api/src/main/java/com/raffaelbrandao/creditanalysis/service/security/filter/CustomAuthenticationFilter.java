@@ -10,18 +10,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class AuthenticationFilter extends OncePerRequestFilter {
+public class CustomAuthenticationFilter extends OncePerRequestFilter {
     private final TokenService tokenService;
 
     @Autowired
-    public AuthenticationFilter(TokenService tokenService) {
+    public CustomAuthenticationFilter(TokenService tokenService) {
         this.tokenService = tokenService;
     }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
-        tokenService.authenticate(request);
+
+        if (!request.getServletPath().equals("/login")) {
+            tokenService.authenticate(request);
+        }
+
         filterChain.doFilter(request, response);
     }
 }
