@@ -10,6 +10,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Locale;
 
 @RestController
 @RequestMapping("/api/proposals")
@@ -56,7 +57,8 @@ public class CreditCardProposalController {
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public CreditCardProposalResponse updateStatus(@PathVariable @Validated Long id,
-                                                   @PathVariable @Validated CreditCardProposalStatusEnum creditCardProposalStatusEnum) {
-        return creditCardProposalService.updateStatus(id, creditCardProposalStatusEnum);
+                                                   @PathVariable @Validated String status) {
+
+        return creditCardProposalService.updateStatus(id, CreditCardProposalStatusEnum.valueOf(status.toUpperCase(Locale.getDefault())));
     }
 }
