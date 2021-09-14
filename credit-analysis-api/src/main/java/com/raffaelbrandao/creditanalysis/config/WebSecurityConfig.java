@@ -50,8 +50,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(STATELESS).and()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/login").permitAll()
-                .antMatchers("/api/proposals").hasAnyAuthority("ROLE_USER")
-                .antMatchers("/api/proposals/**").hasAnyAuthority("ROLE_ANALYST")
+                .antMatchers("/api/proposals/*").hasAnyAuthority("ROLE_USER")
+                .antMatchers("/api/proposals/*/status/*").hasAnyAuthority("ROLE_ANALYST")
                 .anyRequest().authenticated().and()
                 .addFilter(new CustomUsernamePasswordAuthenticationFilter(authenticationManagerBean(), jwtService))
                 .addFilterBefore(new CustomAuthenticationFilter(jwtService), UsernamePasswordAuthenticationFilter.class).formLogin().disable();
