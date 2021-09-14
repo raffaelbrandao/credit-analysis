@@ -11,6 +11,7 @@ public class CreditCardProposalEntity {
     private Long id;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @JoinColumn
     private CardholderEntity cardholderEntity;
 
     @Enumerated(EnumType.STRING)
